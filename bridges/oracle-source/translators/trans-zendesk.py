@@ -8,12 +8,13 @@ import os
 import json
 
 def sink():
-    headers = {}
-    headers['Ce-Specversion']='1.0'
-    headers['Ce-Time']=request.headers['Ce-Time']
-    headers['Ce-Id']=request.headers['Ce-Id']
-    headers['Ce-Source']='translators.triggermesh.io/partsunlimited-demo-translator'
-    headers['Ce-Type']='io.triggermesh.targets.sink'
+    headers = {
+        'Ce-Specversion': '1.0',
+        'Ce-Time': request.headers['Ce-Time'],
+        'Ce-Id': request.headers['Ce-Id'],
+        'Ce-Source': 'translators.triggermesh.io/partsunlimited-demo-translator',
+        'Ce-Type': 'io.triggermesh.targets.sink',
+    }
 
     return app.response_class(
             headers=headers,
@@ -32,15 +33,14 @@ def trans():
     print(request.headers)
     ceSource = request.headers['Ce-Source']
 
-    headers = {}
-    headers['Ce-Specversion']='1.0'
+    headers = {'Ce-Specversion': '1.0'}
     headers['Ce-Time']=request.headers['Ce-Time']
     headers['Ce-Id']=request.headers['Ce-Id']
     headers['Ce-Source']='translators.triggermesh.io/partsunlimited-demo-translator'
 
     # For events we don't care about, just return
     if ceSource is not None and not ceSource.startswith('tmtestdb.demo.triggermesh.com/'):
-        print("invalid source: " + ceSource)
+        print(f"invalid source: {ceSource}")
         return sink()
 
     # Handle the replenishment event by posting a message to Zendesk
@@ -93,7 +93,7 @@ def trans():
             return sink()
 
     else:
-        print("unknown source" + ceSource)
+        print(f"unknown source{ceSource}")
         return sink()
 
 if __name__ == '__main__':

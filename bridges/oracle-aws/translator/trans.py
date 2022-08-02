@@ -14,13 +14,14 @@ def trans():
     print(request.data)
 
     # respond with a cloudevent
-    headers = {}
-    headers['Ce-Specversion']='1.0'
-    headers['Ce-Time']=request.headers['Ce-Time']
-    headers['Ce-Id']=request.headers['Ce-Id']
-    headers['Content-Type']='application/json'
-    headers['Ce-Type']='com.triggermesh.targets.oracledb.fn.dumper'
-    headers['Ce-Source']='translators.triggermesh.io/oracle-source-translator'
+    headers = {
+        'Ce-Specversion': '1.0',
+        'Ce-Time': request.headers['Ce-Time'],
+        'Ce-Id': request.headers['Ce-Id'],
+        'Content-Type': 'application/json',
+        'Ce-Type': 'com.triggermesh.targets.oracledb.fn.dumper',
+        'Ce-Source': 'translators.triggermesh.io/oracle-source-translator',
+    }
 
     # FOR SQS
     body = { "message": "missing oracle db change data"}
